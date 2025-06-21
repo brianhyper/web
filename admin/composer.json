@@ -1,0 +1,14 @@
+{
+    "name": "web/admin",
+    "require": {
+        "php": ">=7.4",
+        "vlucas/phpdotenv": "^5.3",
+        "phpmailer/phpmailer": "^6.5",
+        "tecnickcom/tcpdf": "^6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
