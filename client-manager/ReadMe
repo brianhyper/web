@@ -1,0 +1,32 @@
+# client-manager
+Modern Client Management System with PHP/MySQL
+
+![Dashboard Preview](public/assets/images/screenshot.png)
+
+## Features
+
+- **User Management**: Role-based access control (Admin/Staff)
+- **Client CRM**: Track clients, companies, and interactions
+- **Project Management**: Task tracking with deadlines and statuses
+- **Financial Tracking**: Income/expense records with analytics
+- **Receipt Generation**: PDF receipts with paid/unpaid statuses
+- **Calendar System**: Color-coded deadline tracking
+- **Internal Chat**: Real-time messaging between team members
+- **Data Export**: CSV/PDF exports for clients and projects
+- **Email Notifications**: Registration, verification, and alerts
+
+## Requirements
+
+- PHP 8.0+
+- MySQL 8.0+
+- Apache/Nginx
+- Composer (for dependencies)
+
+## Installation
+
+### Manual Setup
+
+1. Clone repository:
+   ```bash
+   git clone https://github.com/yourusername/client-manager.git
+   cd client-manager

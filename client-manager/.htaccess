@@ -1,0 +1,47 @@
+# client-manager/.htaccess
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Only redirect to public/ if not already in public/
+    RewriteCond %{REQUEST_URI} !^/web/client-manager/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # Block access to sensitive files
+    <FilesMatch "(\.env|\.htaccess|\.gitignore|Dockerfile|docker-compose\.yml)$">
+        Require all denied
+    </FilesMatch>
+
+    # Block access to storage directory
+    RewriteRule ^storage/ - [F,L]
+
+    # Prevent directory listing
+    Options -Indexes
+
+    # Security Headers
+    <IfModule mod_headers.c>
+        Header set X-Content-Type-Options "nosniff"
+        Header set X-Frame-Options "SAMEORIGIN"
+        Header set X-XSS-Protection "1; mode=block"
+        Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src 'self' data:; font-src 'self' fonts.gstatic.com"
+        Header set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+        Header set Referrer-Policy "strict-origin-when-cross-origin"
+    </IfModule>
+</IfModule>
+
+# PHP Settings
+<IfModule mod_php7.c>
+    php_value session.cookie_httponly 1
+    php_value session.cookie_secure 1
+    php_value session.cookie_samesite "Strict"
+    php_value session.use_strict_mode 1
+    php_value session.gc_maxlifetime 86400
+    php_value upload_max_filesize 20M
+    php_value post_max_size 22M
+    php_value memory_limit 256M
+    php_value max_execution_time 300
+</IfModule>
+
+# Error handling
+ErrorDocument 403 /public/errors/403.php
+ErrorDocument 404 /public/errors/404.php
+ErrorDocument 500 /public/errors/500.php

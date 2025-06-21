@@ -1,0 +1,54 @@
+# client-manager/docker-compose.yml
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: client-manager-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+      - ./storage:/var/www/html/storage
+    ports:
+      - "8000:80"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=client_manager
+      - DB_USER=root
+      - DB_PASS=secret
+      - APP_ENV=development
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0
+    container_name: client-manager-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: client_manager
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: client-manager-mail
+    ports:
+      - "8025:8025"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
